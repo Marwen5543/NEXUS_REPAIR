@@ -1,0 +1,363 @@
+<!-- Home Page / Landing Page -->
+<div class="home-page">
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-background">
+      <div class="hero-gradient"></div>
+      <div class="hero-pattern"></div>
+    </div>
+
+    <div class="hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+          <span>Powered by Syntax-Sync AI</span>
+        </div>
+
+        <h1 class="hero-title">
+          The Self-Healing
+          <span class="gradient-text">Service Marketplace</span>
+        </h1>
+
+        <p class="hero-description">
+          Connect with trusted, verified service providers in real-time. From plumbers to electricians,
+          track your provider live on the map, chat securely, and enjoy transparent AI-powered pricing.
+        </p>
+
+        <!-- Search Box -->
+        <div class="hero-search">
+          <div class="search-container">
+            <div class="search-input-group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.35-4.35"></path>
+              </svg>
+              <input
+                type="text"
+                placeholder="What service do you need?"
+                [(ngModel)]="searchQuery"
+                (keyup.enter)="onSearch()"
+              >
+            </div>
+
+            <div class="search-divider"></div>
+
+            <div class="location-input-group">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                <circle cx="12" cy="10" r="3"></circle>
+              </svg>
+              <input
+                type="text"
+                placeholder="Your location"
+                [(ngModel)]="selectedLocation"
+                (keyup.enter)="onSearch()"
+              >
+            </div>
+
+            <button class="search-btn" (click)="onSearch()">
+              <span>Search</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Hero Stats -->
+        <div class="hero-stats">
+          <div class="stat-item" *ngFor="let stat of heroStats">
+            <div class="stat-value">{{ stat.value }}</div>
+            <div class="stat-label">{{ stat.label }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Image/Illustration -->
+      <div class="hero-image">
+        <div class="hero-card floating">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div class="card-content">
+            <h4>Live Tracking</h4>
+            <p>Your provider is 5 mins away</p>
+          </div>
+        </div>
+
+        <div class="hero-card floating" style="animation-delay: 0.5s;">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            </svg>
+          </div>
+          <div class="card-content">
+            <h4>Secure Chat</h4>
+            <p>End-to-end encrypted</p>
+          </div>
+        </div>
+
+        <div class="hero-card floating" style="animation-delay: 1s;">
+          <div class="card-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line x1="1" y1="10" x2="23" y2="10"></line>
+            </svg>
+          </div>
+          <div class="card-content">
+            <h4>Smart Pricing</h4>
+            <p>AI-generated fair rates</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Services Section -->
+  <section class="services-section" id="services">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Popular Services</h2>
+        <p class="section-subtitle">Find the perfect professional for any job</p>
+      </div>
+
+      <div class="services-grid">
+        <div class="service-card" *ngFor="let service of popularServices" (click)="selectService(service)">
+          <div class="service-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Plumbing -->
+              <path *ngIf="service.icon === 'droplet'" d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              <!-- Electrical -->
+              <polygon *ngIf="service.icon === 'zap'" points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              <!-- Carpentry -->
+              <path *ngIf="service.icon === 'tool'" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+              <!-- HVAC -->
+              <path *ngIf="service.icon === 'wind'" d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+              <!-- Appliance -->
+              <circle *ngIf="service.icon === 'settings'" cx="12" cy="12" r="3"></circle>
+              <path *ngIf="service.icon === 'settings'" d="M12 1v6m0 6v6"></path>
+              <!-- Painting -->
+              <path *ngIf="service.icon === 'paint-bucket'" d="m9 11 3 3L22 4"></path>
+              <!-- Cleaning -->
+              <path *ngIf="service.icon === 'sparkles'" d="M12 3v3m6.366-.366-2.12 2.12M21 12h-3m.366 6.366-2.12-2.12M12 21v-3m-6.366.366 2.12 2.12M3 12h3m-.366-6.366 2.12 2.12"></path>
+              <!-- Landscaping -->
+              <path *ngIf="service.icon === 'tree'" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+            </svg>
+          </div>
+          <h3 class="service-title">{{ service.title }}</h3>
+          <p class="service-description">{{ service.description }}</p>
+          <div class="service-arrow">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-cta">
+        <button class="btn-primary-large" (click)="exploreServices()">
+          View All Services
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features-section" id="features">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">Why Choose NEXUS REPAIR?</h2>
+        <p class="section-subtitle">Enterprise-grade platform with cutting-edge AI technology</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-card" *ngFor="let feature of features">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Map Pin -->
+              <path *ngIf="feature.icon === 'map-pin'" d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle *ngIf="feature.icon === 'map-pin'" cx="12" cy="10" r="3"></circle>
+              <!-- Message Circle -->
+              <path *ngIf="feature.icon === 'message-circle'" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <!-- Credit Card -->
+              <rect *ngIf="feature.icon === 'credit-card'" x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+              <line *ngIf="feature.icon === 'credit-card'" x1="1" y1="10" x2="23" y2="10"></line>
+              <!-- Shield Check -->
+              <path *ngIf="feature.icon === 'shield-check'" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              <path *ngIf="feature.icon === 'shield-check'" d="m9 12 2 2 4-4"></path>
+              <!-- Clock -->
+              <circle *ngIf="feature.icon === 'clock'" cx="12" cy="12" r="10"></circle>
+              <polyline *ngIf="feature.icon === 'clock'" points="12 6 12 12 16 14"></polyline>
+              <!-- Award -->
+              <circle *ngIf="feature.icon === 'award'" cx="12" cy="8" r="7"></circle>
+              <polyline *ngIf="feature.icon === 'award'" points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+          </div>
+          <h3 class="feature-title">{{ feature.title }}</h3>
+          <p class="feature-description">{{ feature.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works-section" id="how-it-works">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Get started in 4 simple steps</p>
+      </div>
+
+      <div class="steps-container">
+        <div class="step-item" *ngFor="let step of steps; let i = index">
+          <div class="step-number">{{ step.number }}</div>
+          <div class="step-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <!-- Search -->
+              <circle *ngIf="step.icon === 'search'" cx="11" cy="11" r="8"></circle>
+              <path *ngIf="step.icon === 'search'" d="m21 21-4.35-4.35"></path>
+              <!-- Map -->
+              <polygon *ngIf="step.icon === 'map'" points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+              <line *ngIf="step.icon === 'map'" x1="8" y1="2" x2="8" y2="18"></line>
+              <line *ngIf="step.icon === 'map'" x1="16" y1="6" x2="16" y2="22"></line>
+              <!-- Message Square -->
+              <path *ngIf="step.icon === 'message-square'" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              <!-- Star -->
+              <polygon *ngIf="step.icon === 'star'" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+          <h3 class="step-title">{{ step.title }}</h3>
+          <p class="step-description">{{ step.description }}</p>
+          <div class="step-connector" *ngIf="i < steps.length - 1"></div>
+        </div>
+      </div>
+
+      <div class="section-cta">
+        <button class="btn-primary-large" (click)="getStarted()">
+          Get Started Now
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section" id="testimonials">
+    <div class="section-container">
+      <div class="section-header">
+        <h2 class="section-title">What Our Customers Say</h2>
+        <p class="section-subtitle">Real experiences from real people</p>
+      </div>
+
+      <div class="testimonials-carousel">
+        <button class="carousel-btn prev" (click)="previousTestimonial()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="testimonial-card">
+          <div class="testimonial-stars">
+            <svg *ngFor="let star of getStarArray(testimonials[activeTestimonialIndex].rating)" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+          </div>
+
+          <p class="testimonial-comment">"{{ testimonials[activeTestimonialIndex].comment }}"</p>
+
+          <div class="testimonial-author">
+            <div class="author-avatar">{{ testimonials[activeTestimonialIndex].avatar }}</div>
+            <div class="author-info">
+              <h4 class="author-name">{{ testimonials[activeTestimonialIndex].name }}</h4>
+              <p class="author-role">{{ testimonials[activeTestimonialIndex].role }}</p>
+            </div>
+          </div>
+        </div>
+
+        <button class="carousel-btn next" (click)="nextTestimonial()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+
+        <div class="carousel-indicators">
+          <button
+            *ngFor="let testimonial of testimonials; let i = index"
+            class="indicator"
+            [class.active]="i === activeTestimonialIndex"
+            (click)="setActiveTestimonial(i)"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-background">
+      <div class="cta-gradient"></div>
+    </div>
+
+    <div class="cta-container">
+      <div class="cta-content">
+        <h2 class="cta-title">Ready to Get Started?</h2>
+        <p class="cta-description">
+          Join thousands of satisfied customers who trust NEXUS REPAIR for all their service needs
+        </p>
+        <div class="cta-buttons">
+          <button class="btn-white-large" (click)="getStarted()">
+            Book a Service
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+          <button class="btn-outline-white" (click)="becomeProvider()">
+            Become a Provider
+          </button>
+        </div>
+      </div>
+
+      <div class="cta-features">
+        <div class="cta-feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+          <span>No Credit Card Required</span>
+        </div>
+        <div class="cta-feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>Secure & Encrypted</span>
+        </div>
+        <div class="cta-feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <span>24/7 Customer Support</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>

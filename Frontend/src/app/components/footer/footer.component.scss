@@ -1,0 +1,161 @@
+// Footer Styles
+.footer {
+  background: #1f2937;
+  color: #f9fafb;
+  margin-top: auto;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 60px 20px 20px;
+}
+
+// Footer Main
+.footer-main {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 60px;
+  margin-bottom: 40px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.footer-brand {
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 20px;
+
+    svg {
+      color: #667eea;
+    }
+
+    .footer-logo-text {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: white;
+    }
+  }
+
+  .footer-description {
+    color: #d1d5db;
+    line-height: 1.6;
+    margin-bottom: 24px;
+  }
+
+  .footer-social {
+    display: flex;
+    gap: 16px;
+  }
+
+  .social-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #d1d5db;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background: #667eea;
+      color: white;
+      transform: translateY(-2px);
+    }
+  }
+}
+
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.footer-section {
+  .footer-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 16px;
+  }
+
+  .footer-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-link {
+    color: #d1d5db;
+    text-decoration: none;
+    font-size: 14px;
+    line-height: 2;
+    transition: color 0.3s ease;
+
+    &:hover {
+      color: #667eea;
+    }
+  }
+}
+
+// Footer Bottom
+.footer-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+}
+
+.footer-copyright {
+  color: #9ca3af;
+  font-size: 14px;
+}
+
+.footer-badges {
+  display: flex;
+  gap: 24px;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #d1d5db;
+  font-size: 14px;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    color: #10b981;
+  }
+}

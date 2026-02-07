@@ -1,0 +1,172 @@
+<header class="header" [class.scrolled]="isScrolled">
+  <nav class="navbar">
+    <div class="nav-container">
+      <!-- Logo -->
+      <div class="nav-logo">
+        <a routerLink="/home" class="logo-link">
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+          <span class="logo-text">NEXUS REPAIR</span>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="nav-menu">
+        <a routerLink="/home" class="nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a (click)="scrollToSection('services')" class="nav-link">Services</a>
+        <a (click)="scrollToSection('features')" class="nav-link">Features</a>
+        <a (click)="scrollToSection('how-it-works')" class="nav-link">How It Works</a>
+        <a (click)="scrollToSection('testimonials')" class="nav-link">Testimonials</a>
+      </div>
+
+      <!-- Auth Buttons (Not Authenticated) -->
+      <div class="nav-auth" *ngIf="!isAuthenticated">
+        <button class="btn-secondary" routerLink="/login">Sign In</button>
+        <button class="btn-primary" routerLink="/signup">Get Started</button>
+      </div>
+
+      <!-- User Menu (Authenticated) -->
+      <div class="nav-user" *ngIf="isAuthenticated">
+        <div class="user-menu">
+          <button class="user-btn" (click)="toggleUserMenu($event)">
+            <div class="user-avatar">{{ getUserInitials() }}</div>
+            <span class="user-name">{{ getUserDisplayName() }}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+
+          <div class="user-dropdown" [class.show]="showUserMenu">
+            <div class="dropdown-header">
+              <div class="dropdown-avatar">{{ getUserInitials() }}</div>
+              <div class="dropdown-info">
+                <div class="dropdown-name">{{ getUserDisplayName() }}</div>
+                <div class="dropdown-email">{{ currentUser?.email }}</div>
+              </div>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <a (click)="navigateToDashboard()" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              Dashboard
+            </a>
+
+            <a (click)="navigateToProfile()" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              My Profile
+            </a>
+
+            <a (click)="navigateToSettings()" class="dropdown-item">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3"></circle>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+              </svg>
+              Settings
+            </a>
+
+            <div class="dropdown-divider"></div>
+
+            <button class="dropdown-item logout-btn" (click)="logout()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              Logout
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button class="mobile-menu-btn" (click)="toggleMobileMenu($event)">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" *ngIf="!showMobileMenu">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" *ngIf="showMobileMenu">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" [class.show]="showMobileMenu">
+      <div class="mobile-menu-content">
+        <!-- User Info (Mobile - Authenticated) -->
+        <div class="mobile-user-info" *ngIf="isAuthenticated">
+          <div class="mobile-avatar">{{ getUserInitials() }}</div>
+          <div class="mobile-user-details">
+            <div class="mobile-user-name">{{ getUserDisplayName() }}</div>
+            <div class="mobile-user-email">{{ currentUser?.email }}</div>
+          </div>
+        </div>
+
+        <div class="mobile-divider" *ngIf="isAuthenticated"></div>
+
+        <!-- Navigation Links -->
+        <a routerLink="/home" class="mobile-nav-link" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMobileMenu()">Home</a>
+        <a (click)="scrollToSection('services')" class="mobile-nav-link">Services</a>
+        <a (click)="scrollToSection('features')" class="mobile-nav-link">Features</a>
+        <a (click)="scrollToSection('how-it-works')" class="mobile-nav-link">How It Works</a>
+        <a (click)="scrollToSection('testimonials')" class="mobile-nav-link">Testimonials</a>
+
+        <!-- Authenticated User Actions (Mobile) -->
+        <div class="mobile-user-actions" *ngIf="isAuthenticated">
+          <div class="mobile-divider"></div>
+          <a (click)="navigateToDashboard()" class="mobile-nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            Dashboard
+          </a>
+          <a (click)="navigateToProfile()" class="mobile-nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            My Profile
+          </a>
+          <a (click)="navigateToSettings()" class="mobile-nav-link">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+            </svg>
+            Settings
+          </a>
+          <button class="mobile-nav-link logout-btn" (click)="logout()">
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+              <polyline points="16 17 21 12 16 7"></polyline>
+              <line x1="21" y1="12" x2="9" y2="12"></line>
+            </svg>
+            Logout
+          </button>
+        </div>
+
+        <!-- Auth Buttons (Mobile - Not Authenticated) -->
+        <div class="mobile-auth" *ngIf="!isAuthenticated">
+          <button class="btn-secondary-mobile" routerLink="/login" (click)="closeMobileMenu()">Sign In</button>
+          <button class="btn-primary-mobile" routerLink="/signup" (click)="closeMobileMenu()">Get Started</button>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
