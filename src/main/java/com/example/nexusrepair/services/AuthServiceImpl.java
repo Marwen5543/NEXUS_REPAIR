@@ -30,8 +30,6 @@ public class AuthServiceImpl implements AuthService {
     private final JwtService jwtService;
 
     private static final SecureRandom RNG = new SecureRandom();
-
-    // refresh token validity: 30 days
     private static final long REFRESH_DAYS = 30;
 
     @Override
@@ -43,6 +41,7 @@ public class AuthServiceImpl implements AuthService {
         User user = User.builder()
                 .email(req.email().toLowerCase())
                 .passwordHash(passwordEncoder.encode(req.password()))
+                .fullName(req.fullName()) // ← ADD THIS
                 .status(UserStatus.ACTIVE)
                 .roles(Set.of(UserRole.CLIENT))
                 .build();
@@ -78,7 +77,6 @@ public class AuthServiceImpl implements AuthService {
             throw new RuntimeException("Refresh token expired/revoked");
         }
 
-        // Rotate refresh token (enterprise pattern)
         token.setRevokedAt(now);
         refreshRepo.save(token);
 
@@ -98,18 +96,23 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public void signOutAll(UUID userId) {
-        User user = userRepo.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
         Instant now = Instant.now();
         var tokens = refreshRepo.findAllByUser(user);
-        tokens.forEach(t -> { if (t.getRevokedAt() == null) t.setRevokedAt(now); });
+        tokens.forEach(t -> {
+            if (t.getRevokedAt() == null) {
+                t.setRevokedAt(now);
+            }
+        });
         refreshRepo.saveAll(tokens);
     }
-
 
     private AuthResponse issueTokens(User user, String deviceId, String ip) {
         String access = jwtService.createAccessToken(
                 user.getId(),
                 user.getEmail(),
+                user.getFullName(), // ← ADD THIS
                 user.getRoles().stream().toList()
         );
 

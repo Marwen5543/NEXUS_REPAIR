@@ -25,6 +25,8 @@ public class User {
     @Column(nullable=false, length=255)
     private String passwordHash;
 
+    private String fullName;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable=false, length=20)
     private UserStatus status;

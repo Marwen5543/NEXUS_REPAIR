@@ -28,7 +28,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         if (auth != null && auth.startsWith("Bearer ")) {
             String token = auth.substring(7);
             try {
-                Claims claims = jwtService.parse(token).getPayload();
+                Claims claims = jwtService.parseToken(token);
                 String userId = claims.getSubject();
 
                 @SuppressWarnings("unchecked")
