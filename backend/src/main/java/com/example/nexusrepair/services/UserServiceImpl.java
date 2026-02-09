@@ -1,6 +1,7 @@
 package com.example.nexusrepair.services;
 
 import com.example.nexusrepair.domain.User;
+import com.example.nexusrepair.domain.enums.UserStatus;
 import com.example.nexusrepair.dto.user.ChangePasswordRequest;
 import com.example.nexusrepair.dto.user.UpdateProfileRequest;
 import com.example.nexusrepair.dto.user.UserProfileDTO;
@@ -24,7 +25,6 @@ public class UserServiceImpl implements UserService {
     public UserProfileDTO getUserProfile(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         return mapToDTO(user);
     }
 
@@ -34,9 +34,30 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        user.setFullName(request.fullName());
-        user = userRepository.save(user);
+        // Update only provided fields (null-safe)
+        if (request.fullName() != null) {
+            user.setFullName(request.fullName());
+        }
+        if (request.phone() != null) {
+            user.setPhone(request.phone());
+        }
+        if (request.whatsappNumber() != null) {
+            user.setWhatsappNumber(request.whatsappNumber());
+        }
+        if (request.governorate() != null) {
+            user.setGovernorate(request.governorate());
+        }
+        if (request.city() != null) {
+            user.setCity(request.city());
+        }
+        if (request.addressLine() != null) {
+            user.setAddressLine(request.addressLine());
+        }
+        if (request.postalCode() != null) {
+            user.setPostalCode(request.postalCode());
+        }
 
+        user = userRepository.save(user);
         return mapToDTO(user);
     }
 
@@ -46,12 +67,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
-        // Verify current password
         if (!passwordEncoder.matches(request.currentPassword(), user.getPasswordHash())) {
             throw new RuntimeException("Current password is incorrect");
         }
 
-        // Set new password
         user.setPasswordHash(passwordEncoder.encode(request.newPassword()));
         userRepository.save(user);
     }
@@ -61,9 +80,7 @@ public class UserServiceImpl implements UserService {
     public void deleteAccount(UUID userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
-        // Soft delete by setting status to DELETED
-        user.setStatus(com.example.nexusrepair.domain.enums.UserStatus.DELETED);
+        user.setStatus(UserStatus.DELETED);
         userRepository.save(user);
     }
 
@@ -72,6 +89,12 @@ public class UserServiceImpl implements UserService {
                 user.getId(),
                 user.getEmail(),
                 user.getFullName(),
+                user.getPhone(),
+                user.getWhatsappNumber(),
+                user.getGovernorate(),
+                user.getCity(),
+                user.getAddressLine(),
+                user.getPostalCode(),
                 user.getStatus(),
                 user.getRoles(),
                 user.getCreatedAt(),

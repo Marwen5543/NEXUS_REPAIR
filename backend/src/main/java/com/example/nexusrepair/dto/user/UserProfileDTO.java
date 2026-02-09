@@ -11,8 +11,15 @@ public record UserProfileDTO(
         UUID id,
         String email,
         String fullName,
+        String phone,
+        String whatsappNumber,
+        String governorate,
+        String city,
+        String addressLine,
+        String postalCode,
         UserStatus status,
         Set<UserRole> roles,
         Instant createdAt,
         Instant updatedAt
-) {}
+) {
+}
