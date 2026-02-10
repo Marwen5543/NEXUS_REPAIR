@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { UserService, UserProfile } from '../../services/user.service';
+import { UserService, UserProfile, UpdateProfileRequest } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
@@ -24,6 +24,15 @@ export class ProfileComponent implements OnInit {
   errorMessage = '';
 
   showDeleteConfirm = false;
+  Boolean = Boolean;
+
+  // ─── Add this array back ────────────────────────────────────────────────
+  governorates: string[] = [
+    'Ariana', 'Béja', 'Ben Arous', 'Bizerte', 'Gabès', 'Gafsa', 'Jendouba',
+    'Kairouan', 'Kasserine', 'Kébili', 'Le Kef', 'Mahdia', 'La Manouba',
+    'Médenine', 'Monastir', 'Nabeul', 'Sfax', 'Sidi Bouzid', 'Siliana',
+    'Sousse', 'Tataouine', 'Tozeur', 'Tunis', 'Zaghouan'
+  ].sort((a, b) => a.localeCompare(b));   // optional: alphabetical sort
 
   constructor(
     private fb: FormBuilder,
@@ -32,7 +41,13 @@ export class ProfileComponent implements OnInit {
     public router: Router
   ) {
     this.profileForm = this.fb.group({
-      fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]]
+      fullName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],
+      phone: ['', [Validators.pattern(/^(\+216)?[24579]\d{7}$/)]],
+      whatsappNumber: ['', [Validators.pattern(/^(\+216)?[24579]\d{7}$/)]],
+      governorate: [''],
+      city: [''],
+      addressLine: [''],
+      postalCode: ['', [Validators.pattern(/^\d{4}$/)]],
     });
 
     this.passwordForm = this.fb.group({
@@ -52,7 +67,13 @@ export class ProfileComponent implements OnInit {
       next: (profile: UserProfile) => {
         this.profile = profile;
         this.profileForm.patchValue({
-          fullName: profile.fullName || ''
+          fullName: profile.fullName || '',
+          phone: profile.phone || '',
+          whatsappNumber: profile.whatsappNumber || '',
+          governorate: profile.governorate || '',
+          city: profile.city || '',
+          addressLine: profile.addressLine || '',
+          postalCode: profile.postalCode || ''
         });
         this.loading = false;
       },
@@ -66,29 +87,38 @@ export class ProfileComponent implements OnInit {
 
   updateProfile(): void {
     if (this.profileForm.invalid) {
+      this.profileForm.markAllAsTouched(); // better UX — show all errors
       return;
     }
 
     this.profileLoading = true;
     this.clearMessages();
 
-    this.userService.updateProfile(this.profileForm.value).subscribe({
-      next: (profile: UserProfile) => {
-        this.profile = profile;
+    const formValue = this.profileForm.value;
+    const request: UpdateProfileRequest = {
+      fullName: formValue.fullName || undefined,
+      phone: formValue.phone || undefined,
+      whatsappNumber: formValue.whatsappNumber || undefined,
+      governorate: formValue.governorate || undefined,
+      city: formValue.city || undefined,
+      addressLine: formValue.addressLine || undefined,
+      postalCode: formValue.postalCode || undefined
+    };
+
+    this.userService.updateProfile(request).subscribe({
+      next: (updatedProfile: UserProfile) => {
+        this.profile = updatedProfile;
         this.showSuccess('Profile updated successfully');
         this.profileLoading = false;
-
-        // Trigger auth state update to refresh header
-        this.authService.setAuthenticated(true);
+        this.authService.setAuthenticated(true); // optional refresh
       },
       error: (error: any) => {
         console.error('Error updating profile:', error);
-        this.showError('Failed to update profile');
+        this.showError(error.error?.message || 'Failed to update profile');
         this.profileLoading = false;
       }
     });
   }
-
   changePassword(): void {
     if (this.passwordForm.invalid) {
       return;

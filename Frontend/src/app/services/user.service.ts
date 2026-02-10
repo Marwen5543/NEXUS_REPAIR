@@ -3,10 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 
+// src/app/services/user.service.ts  (or wherever UserService is defined)
+
 export interface UserProfile {
   id: string;
   email: string;
   fullName: string;
+  phone?: string;
+  whatsappNumber?: string;
+  governorate?: string;
+  city?: string;
+  addressLine?: string;
+  postalCode?: string;
   status: string;
   roles: string[];
   createdAt: string;
@@ -14,7 +22,13 @@ export interface UserProfile {
 }
 
 export interface UpdateProfileRequest {
-  fullName: string;
+  fullName?: string;
+  phone?: string;
+  whatsappNumber?: string;
+  governorate?: string;
+  city?: string;
+  addressLine?: string;
+  postalCode?: string;
 }
 
 export interface ChangePasswordRequest {

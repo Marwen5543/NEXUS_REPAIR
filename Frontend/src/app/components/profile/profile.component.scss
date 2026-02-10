@@ -86,27 +86,35 @@
   .profile-card {
     background: white;
     border-radius: 16px;
-    padding: 2rem;
+    padding: 2.5rem;
     margin-bottom: 1.5rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(102, 126, 234, 0.08);
+    transition: all 0.3s ease;
+
+    &:hover {
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
+    }
 
     .profile-avatar-section {
       display: flex;
-      align-items: center;
-      gap: 2rem;
+      align-items: flex-start;
+      gap: 2.5rem;
 
       .avatar-large {
-        width: 100px;
-        height: 100px;
+        width: 120px;
+        height: 120px;
         border-radius: 50%;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 2.5rem;
+        font-size: 3rem;
         font-weight: 700;
         flex-shrink: 0;
+        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        border: 4px solid white;
       }
 
       .profile-info {
@@ -117,18 +125,68 @@
           font-size: 1.75rem;
           font-weight: 700;
           color: #1a1a1a;
+          letter-spacing: -0.5px;
         }
 
         .profile-email {
-          margin: 0 0 1rem 0;
+          margin: 0 0 1.5rem 0;
           color: #666;
           font-size: 1rem;
+          font-weight: 500;
+        }
+
+        .profile-details {
+          margin-bottom: 1.5rem;
+          padding-bottom: 1.5rem;
+          border-bottom: 1px solid #f0f0f0;
+
+          .detail-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            transition: all 0.3s ease;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+
+            svg {
+              color: #667eea;
+              flex-shrink: 0;
+              margin-top: 2px;
+              width: 18px;
+              height: 18px;
+            }
+
+            span {
+              color: #333;
+              font-size: 0.95rem;
+              line-height: 1.5;
+              word-break: break-word;
+              font-weight: 500;
+
+              &:first-of-type {
+                color: #666;
+                font-weight: 400;
+              }
+            }
+
+            &:hover {
+              transform: translateX(2px);
+
+              svg {
+                color: #764ba2;
+              }
+            }
+          }
         }
 
         .profile-meta {
           display: flex;
           gap: 1.5rem;
           flex-wrap: wrap;
+          margin-top: 1rem;
 
           .meta-item {
             display: flex;
@@ -136,9 +194,21 @@
             gap: 0.5rem;
             color: #666;
             font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
 
             svg {
               color: #667eea;
+              width: 18px;
+              height: 18px;
+            }
+
+            &:hover {
+              color: #764ba2;
+
+              svg {
+                color: #764ba2;
+              }
             }
           }
         }
@@ -521,12 +591,34 @@
     }
   }
 
-  .profile-card .profile-avatar-section {
-    flex-direction: column;
-    text-align: center;
+  .profile-card {
+    padding: 1.5rem;
 
-    .profile-info .profile-meta {
-      justify-content: center;
+    .profile-avatar-section {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1.5rem;
+
+      .avatar-large {
+        width: 100px;
+        height: 100px;
+        font-size: 2.5rem;
+      }
+
+      .profile-info {
+        width: 100%;
+
+        .profile-details {
+          .detail-item {
+            justify-content: center;
+          }
+        }
+
+        .profile-meta {
+          justify-content: center;
+        }
+      }
     }
   }
 
