@@ -2,13 +2,7 @@ import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
-
-interface User {
-  id: string;
-  email: string;
-  fullName?: string;
-  roles: string[];
-}
+import { SERVICES, EMERGENCY_SERVICES, FEATURES, HOW_IT_WORKS_STEPS, ZONES, User, ServiceCategory, Zone } from './header.constants';
 
 @Component({
   selector: 'app-header',
@@ -21,7 +15,29 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showUserMenu = false;
   showMobileMenu = false;
   isScrolled = false;
+
+  // Dropdown states
+  showServicesDropdown = false;
+  showFeaturesDropdown = false;
+  showHowItWorksDropdown = false;
+  showZonesDropdown = false;
+
   private authSubscription: Subscription = new Subscription();
+
+  // Service Categories
+  services = SERVICES;
+
+  // Emergency services (highlighted)
+  emergencyServices = EMERGENCY_SERVICES;
+
+  // Features
+  features = FEATURES;
+
+  // How it works steps
+  howItWorksSteps = HOW_IT_WORKS_STEPS;
+
+  // Coverage zones (Tunisia)
+  zones = ZONES;
 
   constructor(
     private router: Router,
@@ -29,32 +45,19 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-  // Subscribe to authentication state
-  this.authSubscription.add(
-    this.authService.isAuthenticated$.subscribe(isAuth => {
-      this.isAuthenticated = isAuth;
-      if (isAuth) {
-        this.currentUser = this.authService.getCurrentUser();
-
-        // DEBUG: Check what's in the token
-        console.log('Current User:', this.currentUser);
-        const token = this.authService.getAccessToken();
-        if (token) {
-          try {
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            console.log('JWT Payload:', payload);
-          } catch (e) {
-            console.error('Error decoding token:', e);
-          }
+    this.authSubscription.add(
+      this.authService.isAuthenticated$.subscribe(isAuth => {
+        this.isAuthenticated = isAuth;
+        if (isAuth) {
+          this.currentUser = this.authService.getCurrentUser();
+        } else {
+          this.currentUser = null;
         }
-      } else {
-        this.currentUser = null;
-      }
-    })
-  );
+      })
+    );
 
-  document.addEventListener('click', this.handleClickOutside.bind(this));
-}
+    document.addEventListener('click', this.handleClickOutside.bind(this));
+  }
 
   ngOnDestroy(): void {
     this.authSubscription.unsubscribe();
@@ -68,15 +71,46 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   handleClickOutside(event: MouseEvent): void {
     const target = event.target as HTMLElement;
-    const userMenu = document.querySelector('.user-menu');
-    const mobileMenu = document.querySelector('.mobile-menu-btn');
 
-    if (userMenu && !userMenu.contains(target)) {
+    // Close all dropdowns if clicking outside
+    if (!target.closest('.nav-item')) {
+      this.closeAllDropdowns();
+    }
+
+    // Close user menu
+    if (!target.closest('.user-menu')) {
       this.showUserMenu = false;
     }
 
-    if (mobileMenu && !mobileMenu.contains(target) && !target.closest('.mobile-menu')) {
+    // Close mobile menu
+    if (!target.closest('.mobile-menu-btn') && !target.closest('.mobile-menu')) {
       this.showMobileMenu = false;
+    }
+  }
+
+  closeAllDropdowns(): void {
+    this.showServicesDropdown = false;
+    this.showFeaturesDropdown = false;
+    this.showHowItWorksDropdown = false;
+    this.showZonesDropdown = false;
+  }
+
+  toggleDropdown(dropdown: string): void {
+    this.closeAllDropdowns();
+
+    switch(dropdown) {
+      case 'services':
+        this.showServicesDropdown = !this.showServicesDropdown;
+        break;
+      case 'features':
+        this.showFeaturesDropdown = !this.showFeaturesDropdown;
+        break;
+      case 'how-it-works':
+        this.showHowItWorksDropdown = !this.showHowItWorksDropdown;
+        break;
+      case 'zones':
+        this.showZonesDropdown = !this.showZonesDropdown;
+        break;
     }
   }
 
@@ -94,6 +128,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     }
     this.showMobileMenu = !this.showMobileMenu;
     this.showUserMenu = false;
+    this.closeAllDropdowns();
   }
 
   closeMobileMenu(): void {
@@ -132,14 +167,13 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.authService.logout().subscribe({
       next: () => {
         this.showUserMenu = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       },
       error: (error) => {
         console.error('Logout error:', error);
-        // Force logout on client side even if API fails
         this.authService.clearTokens();
         this.showUserMenu = false;
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       }
     });
   }
@@ -159,18 +193,33 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.router.navigate(['/settings']);
   }
 
-  scrollToSection(sectionId: string): void {
+  navigateToPostRequest(): void {
+    this.closeUserMenu();
     this.closeMobileMenu();
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const headerOffset = 70;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+    this.router.navigate(['/requests/new']);
+  }
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth'
-      });
-    }
+  navigateToMyRequests(): void {
+    this.closeUserMenu();
+    this.closeMobileMenu();
+    this.router.navigate(['/requests/my-requests']);
+  }
+
+  navigateTo(route: string): void {
+    this.closeAllDropdowns();
+    this.closeMobileMenu();
+    this.router.navigate([route]);
+  }
+
+  openWhatsApp(): void {
+    // Replace with your WhatsApp business number
+    const phoneNumber = '21612345678'; // Tunisia format
+    const message = 'Hello, I need help with NEXUS REPAIR';
+    window.open(`https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`, '_blank');
+  }
+
+  callSupport(): void {
+    // Replace with your support phone number
+    window.location.href = 'tel:+21612345678';
   }
 }
