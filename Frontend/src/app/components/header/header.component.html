@@ -22,7 +22,7 @@
 
         <!-- Services (Mega Menu) -->
         <div class="nav-item" (mouseenter)="showServicesDropdown = true" (mouseleave)="showServicesDropdown = false">
-          <button class="nav-link dropdown-trigger" [class.active]="showServicesDropdown">
+          <button class="nav-link dropdown-trigger" [class.active]="showServicesDropdown" >
             Services
             <svg class="dropdown-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="6 9 12 15 18 9"></polyline>
@@ -74,82 +74,21 @@
           </div>
         </div>
 
-        <!-- Why Us? -->
-        <div class="nav-item" (mouseenter)="showFeaturesDropdown = true" (mouseleave)="showFeaturesDropdown = false">
-          <button class="nav-link dropdown-trigger" [class.active]="showFeaturesDropdown">
-            Why Us?
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
 
-          <div class="dropdown-menu features-dropdown" [class.show]="showFeaturesDropdown">
-            <a *ngFor="let feature of features"
-               [routerLink]="feature.route"
-               class="dropdown-item"
-               (click)="closeAllDropdowns()">
-              <span class="item-icon">{{ feature.icon }}</span>
-              <span class="item-text">{{ feature.title }}</span>
-            </a>
-          </div>
-        </div>
 
-        <!-- How it Works -->
-        <div class="nav-item" (mouseenter)="showHowItWorksDropdown = true" (mouseleave)="showHowItWorksDropdown = false">
-          <button class="nav-link dropdown-trigger" [class.active]="showHowItWorksDropdown">
-            How it Works
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
-
-          <div class="dropdown-menu how-dropdown" [class.show]="showHowItWorksDropdown">
-            <a *ngFor="let step of howItWorksSteps"
-               [routerLink]="step.route"
-               class="dropdown-item step-item"
-               (click)="closeAllDropdowns()">
-              <span class="step-number">{{ step.id }}</span>
-              <div class="step-content">
-                <span class="item-icon">{{ step.icon }}</span>
-                <span class="item-text">{{ step.title }}</span>
-              </div>
-            </a>
-            <div class="dropdown-divider"></div>
-            <a routerLink="/become-provider" class="dropdown-item provider-cta" (click)="closeAllDropdowns()">
-              <span class="item-icon">💼</span>
-              <span class="item-text">For Providers</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="5" y1="12" x2="19" y2="12"></line>
-                <polyline points="12 5 19 12 12 19"></polyline>
-              </svg>
-            </a>
-          </div>
-        </div>
 
         <!-- Reviews -->
         <a routerLink="/avis" class="nav-link" routerLinkActive="active">
           Reviews
         </a>
 
-        <!-- Our Areas -->
-        <div class="nav-item" (mouseenter)="showZonesDropdown = true" (mouseleave)="showZonesDropdown = false">
-          <button class="nav-link dropdown-trigger" [class.active]="showZonesDropdown">
-            Our Areas
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="dropdown-icon">
-              <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-          </button>
+        <!-- News -->
+        <a routerLink="/news" class="nav-link" routerLinkActive="active">
+          News
+        </a>
 
-          <div class="dropdown-menu zones-dropdown" [class.show]="showZonesDropdown">
-            <a *ngFor="let zone of zones"
-               [routerLink]="zone.route"
-               class="dropdown-item"
-               (click)="closeAllDropdowns()">
-              <span class="item-icon">📍</span>
-              <span class="item-text">{{ zone.name }}</span>
-            </a>
-          </div>
-        </div>
+
+
       </div>
 
       <!-- Right Side Actions -->
@@ -346,6 +285,10 @@
 
         <a routerLink="/avis" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
           Reviews
+        </a>
+
+        <a routerLink="/news" class="mobile-nav-link" routerLinkActive="active" (click)="closeMobileMenu()">
+          News
         </a>
 
         <div class="mobile-accordion">
