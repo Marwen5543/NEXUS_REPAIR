@@ -296,4 +296,121 @@
     </div>
   </section>
 
+  <!-- Article Modal -->
+  <div class="article-modal" *ngIf="showModal && selectedPost" (click)="closeModal()">
+    <div class="modal-container" (click)="$event.stopPropagation()">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <button class="modal-close" (click)="closeModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Modal Content -->
+      <div class="modal-content">
+        <!-- Article Image -->
+        <div class="modal-image">
+          <img [src]="selectedPost.coverImage" [alt]="selectedPost.title">
+          <div class="modal-category-badge" [attr.data-category]="selectedPost.category">
+            {{ selectedPost.category }}
+          </div>
+        </div>
+
+        <!-- Article Meta -->
+        <div class="modal-meta">
+          <div class="modal-author-info">
+            <div class="modal-author-avatar">{{ selectedPost.author.avatar }}</div>
+            <div class="modal-author-details">
+              <div class="modal-author-name">
+                {{ selectedPost.author.name }}
+                <svg *ngIf="selectedPost.author.verified" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" class="verified-badge">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <div class="modal-post-info">
+                <span>{{ formatDate(selectedPost.publishedDate) }}</span>
+                <span class="separator">•</span>
+                <span>{{ selectedPost.readTime }} min read</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="modal-stats">
+            <span class="modal-stat">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+              {{ formatNumber(selectedPost.views) }}
+            </span>
+            <span class="modal-stat">
+              <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              {{ selectedPost.comments }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Article Title -->
+        <h1 class="modal-title">{{ selectedPost.title }}</h1>
+
+        <!-- Service Review (if applicable) -->
+        <div class="modal-service-review" *ngIf="selectedPost.serviceReview">
+          <div class="modal-review-header">
+            <div class="modal-service-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+            </div>
+            <div class="modal-service-info">
+              <span class="modal-service-type">{{ selectedPost.serviceReview.serviceType }}</span>
+              <span class="modal-service-location">{{ selectedPost.serviceReview.location }}</span>
+            </div>
+          </div>
+          <div class="modal-review-rating">
+            <div class="modal-stars">
+              <svg *ngFor="let star of getStarArray(selectedPost.serviceReview.rating)" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </div>
+            <span class="modal-provider-name">{{ selectedPost.serviceReview.providerName }}</span>
+          </div>
+        </div>
+
+        <!-- Article Body -->
+        <div class="modal-article-body" [innerHTML]="selectedPost.content"></div>
+
+        <!-- Tags -->
+        <div class="modal-tags">
+          <span class="modal-tag" *ngFor="let tag of selectedPost.tags">{{ tag }}</span>
+        </div>
+
+        <!-- Article Actions -->
+        <div class="modal-actions">
+          <button class="modal-action-btn" (click)="likePost(selectedPost, $event)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            </svg>
+            <span>{{ formatNumber(selectedPost.likes) }} Likes</span>
+          </button>
+          <button class="modal-action-btn" (click)="sharePost(selectedPost, $event)">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="18" cy="5" r="3"></circle>
+              <circle cx="6" cy="12" r="3"></circle>
+              <circle cx="18" cy="19" r="3"></circle>
+              <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+              <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+            </svg>
+            <span>Share</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

@@ -47,6 +47,8 @@ interface NewsCategory {
   styleUrls: ['./news.component.scss']
 })
 export class NewsComponent implements OnInit {
+  showModal: boolean = false;
+  selectedPost: any = null;
   selectedCategory: string = 'all';
   searchQuery: string = '';
   sortBy: 'latest' | 'popular' | 'trending' = 'latest';
@@ -63,7 +65,56 @@ export class NewsComponent implements OnInit {
     id: '1',
     title: 'Exceptional Plumbing Service Saved My Kitchen Renovation',
     excerpt: 'After three failed attempts with other providers, I finally found a professional plumber through NEXUS REPAIR who completely transformed my experience.',
-    content: '',
+    content: `
+      <h2>The Problem That Nearly Derailed Everything</h2>
+      <p>Three months into my kitchen renovation, disaster struck. The plumbing work that was supposed to be a simple upgrade turned into a nightmare. Two different contractors had already failed to properly install the new fixtures, and water damage was starting to show on my freshly painted walls.</p>
+
+      <p>I was frustrated, running out of budget, and seriously considering abandoning the entire renovation project. That's when a friend recommended NEXUS REPAIR.</p>
+
+      <h2>Finding the Right Professional</h2>
+      <p>What impressed me immediately was the platform's verification system. I could see Ahmed Ben Salah's complete profile, including:</p>
+      <ul>
+        <li>15 years of professional plumbing experience</li>
+        <li>Specialized certifications in modern kitchen installations</li>
+        <li>127 five-star reviews from verified customers</li>
+        <li>Before-and-after photos of similar projects</li>
+      </ul>
+
+      <h2>The Real-Time Tracking Feature</h2>
+      <p>On the day of the appointment, I received a notification that Ahmed was on his way. The GPS tracking showed exactly where he was, with an estimated arrival time that was accurate to the minute. This simple feature eliminated all the anxiety of wondering "when will they show up?"</p>
+
+      <h2>Professional Service That Made the Difference</h2>
+      <p>Ahmed arrived exactly on time, with all the necessary tools and materials. He spent the first 30 minutes thoroughly inspecting the previous work and explaining what had gone wrong. His diagnostic approach was methodical and professional.</p>
+
+      <p>The repair work took two days, but Ahmed kept me updated throughout via the platform's encrypted chat feature. He sent photos of the progress, explained each step, and even suggested a few improvements that would prevent future issues.</p>
+
+      <h2>Transparent Pricing Through AI</h2>
+      <p>One of my biggest concerns with the previous contractors was surprise costs. With NEXUS REPAIR, the AI-powered payment system generated a detailed quote based on our chat conversations and the scope of work. Everything was transparent:</p>
+      <ul>
+        <li>Labor costs clearly itemized</li>
+        <li>Materials with specific pricing</li>
+        <li>No hidden fees or surprise charges</li>
+        <li>Payment protection through the platform</li>
+      </ul>
+
+      <h2>The Result</h2>
+      <p>Six months later, my kitchen plumbing works flawlessly. The new fixtures are perfectly installed, there's been no leaking, and the water pressure is excellent. More importantly, I found a plumber I can trust for any future work.</p>
+
+      <h2>Why This Platform Works</h2>
+      <p>NEXUS REPAIR solved three major pain points I've experienced with traditional contractor hiring:</p>
+      <ol>
+        <li><strong>Trust:</strong> Verified professionals with real reviews</li>
+        <li><strong>Communication:</strong> Built-in chat and tracking eliminated uncertainty</li>
+        <li><strong>Transparency:</strong> Clear pricing and payment protection</li>
+      </ol>
+
+      <p>If you're facing a home repair challenge, especially after bad experiences with other contractors, I highly recommend giving NEXUS REPAIR a try. The platform's verification process and built-in protections make all the difference.</p>
+
+      <div class="tip-box">
+        <h3>💡 Pro Tip</h3>
+        <p>When booking through NEXUS REPAIR, use the chat feature to discuss your project in detail before confirming. The AI pricing tool will give you a fair quote, and you'll have everything documented for reference.</p>
+      </div>
+    `,
     author: {
       id: 'usr_001',
       name: 'Sarah Mitchell',
@@ -93,7 +144,33 @@ export class NewsComponent implements OnInit {
       id: '2',
       title: 'How GPS Tracking Made My AC Repair Stress-Free',
       excerpt: 'Real-time tracking feature let me plan my day perfectly while waiting for the HVAC technician to arrive.',
-      content: '',
+      content: `
+        <h2>Summer Heat and a Broken AC</h2>
+        <p>It was the hottest week of summer when my air conditioning unit decided to quit. With temperatures soaring above 40°C, I needed help fast. I booked an HVAC technician through NEXUS REPAIR, and what happened next completely changed my expectations for service calls.</p>
+
+        <h2>The Game-Changing GPS Feature</h2>
+        <p>Instead of sitting at home all day waiting for that vague "sometime between 8 AM and 5 PM" appointment, I could see exactly where Mohamed was on the map. The system showed:</p>
+        <ul>
+          <li>Real-time location of the technician</li>
+          <li>Estimated arrival time (updated continuously)</li>
+          <li>Current job status</li>
+          <li>Distance from my location</li>
+        </ul>
+
+        <p>This meant I could run errands, grab lunch, and even attend a quick meeting - all while monitoring when I actually needed to be home.</p>
+
+        <h2>Perfect Timing</h2>
+        <p>Mohamed arrived within 3 minutes of the estimated time. He diagnosed the problem (faulty compressor), explained the options clearly, and had my AC running cold air within 2 hours.</p>
+
+        <h2>Why This Matters</h2>
+        <p>The GPS tracking feature transformed what's usually a frustrating experience into a smooth, stress-free process. I didn't waste my entire day, and I knew exactly when to expect the technician.</p>
+
+        <blockquote>
+          "The real-time tracking is genius. It's like Uber for home services - you know exactly what's happening."
+        </blockquote>
+
+        <p>If you value your time and hate uncertainty, NEXUS REPAIR's tracking feature alone makes it worth using the platform.</p>
+      `,
       author: {
         id: 'usr_002',
         name: 'Karim Hamdi',
@@ -306,6 +383,8 @@ export class NewsComponent implements OnInit {
   // Filtered posts based on category and search
   filteredPosts: NewsPost[] = [];
 
+
+
   constructor(private router: Router) {}
 
   ngOnInit(): void {
@@ -325,6 +404,8 @@ export class NewsComponent implements OnInit {
     this.sortBy = sort;
     this.applyFilters();
   }
+
+
 
   applyFilters(): void {
     let posts = [...this.newsPosts];
@@ -361,7 +442,23 @@ export class NewsComponent implements OnInit {
   }
 
   viewPost(postId: string): void {
-    this.router.navigate(['/news', postId]);
+    // Find the post by ID
+    const post = this.newsPosts.find(p => p.id === postId) ||
+                 (this.featuredPost.id === postId ? this.featuredPost : null);
+
+    if (post) {
+      this.selectedPost = this.filteredPosts.find(post => post.id === postId);
+    this.showModal = true;
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  closeModal(): void {
+    this.showModal = false;
+    this.selectedPost = null;
+    // Restore body scroll
+    document.body.style.overflow = 'auto';
   }
 
   likePost(post: NewsPost, event: Event): void {
@@ -403,9 +500,7 @@ export class NewsComponent implements OnInit {
     }
     return num.toString();
   }
-
-
-getSectionTitle(): string {
+  getSectionTitle(): string {
   if (this.searchQuery) {
     return `Search Results for "${this.searchQuery}"`;
   }
@@ -417,5 +512,4 @@ getSectionTitle(): string {
 
   return 'Latest Articles';
 }
-
 }
