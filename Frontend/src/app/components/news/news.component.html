@@ -1,6 +1,299 @@
+<!-- NEWS / BLOG PAGE - Professional Dark Theme -->
 <div class="news-page">
-  <div class="container">
-    <h1>News</h1>
-    <p>Latest articles and updates will appear here.</p>
-  </div>
+
+  <!-- Hero Header -->
+  <section class="news-hero">
+    <div class="hero-background">
+      <div class="hero-gradient"></div>
+      <div class="hero-pattern"></div>
+    </div>
+
+    <div class="news-hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"></path>
+          </svg>
+          <span>Community Stories</span>
+        </div>
+
+        <h1 class="hero-title">
+          Service <span class="gradient-text">Experiences</span>
+        </h1>
+
+        <p class="hero-description">
+          Real reviews and stories from our community. Discover how NEXUS REPAIR is transforming service experiences across Tunisia.
+        </p>
+
+        <!-- Search & Filter Bar -->
+        <div class="news-search-bar">
+          <div class="search-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search articles, reviews, tips..."
+              [(ngModel)]="searchQuery"
+              (input)="onSearch()"
+            >
+          </div>
+
+          <div class="sort-dropdown">
+            <select [(ngModel)]="sortBy" (change)="changeSortBy(sortBy)">
+              <option value="latest">Latest First</option>
+              <option value="popular">Most Popular</option>
+              <option value="trending">Trending</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="categories-scroll">
+        <button
+          *ngFor="let category of categories"
+          class="category-chip"
+          [class.active]="selectedCategory === category.id"
+          (click)="selectCategory(category.id)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Grid -->
+            <rect *ngIf="category.icon === 'grid'" x="3" y="3" width="7" height="7"></rect>
+            <rect *ngIf="category.icon === 'grid'" x="14" y="3" width="7" height="7"></rect>
+            <rect *ngIf="category.icon === 'grid'" x="14" y="14" width="7" height="7"></rect>
+            <rect *ngIf="category.icon === 'grid'" x="3" y="14" width="7" height="7"></rect>
+            <!-- Star -->
+            <polygon *ngIf="category.icon === 'star'" points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            <!-- Message Circle -->
+            <path *ngIf="category.icon === 'message-circle'" d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            <!-- Lightbulb -->
+            <path *ngIf="category.icon === 'lightbulb'" d="M9 18h6"></path>
+            <path *ngIf="category.icon === 'lightbulb'" d="M10 22h4"></path>
+            <path *ngIf="category.icon === 'lightbulb'" d="M15 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"></path>
+            <path *ngIf="category.icon === 'lightbulb'" d="M12 2v1"></path>
+            <!-- Bell -->
+            <path *ngIf="category.icon === 'bell'" d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+            <path *ngIf="category.icon === 'bell'" d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+          </svg>
+          <span>{{ category.name }}</span>
+          <span class="count">{{ category.count }}</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Post -->
+  <section class="featured-section" *ngIf="selectedCategory === 'all'">
+    <div class="container">
+      <div class="featured-label">
+        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+        </svg>
+        <span>Featured Story</span>
+      </div>
+
+      <div class="featured-post" (click)="viewPost(featuredPost.id)">
+        <div class="featured-image">
+          <img [src]="featuredPost.coverImage" [alt]="featuredPost.title" class="featured-img">
+          <div class="image-overlay"></div>
+          <div class="featured-badge">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <span>Featured</span>
+          </div>
+        </div>
+
+        <div class="featured-content">
+          <div class="post-meta">
+            <span class="category-tag">{{ featuredPost.category }}</span>
+            <span class="read-time">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              {{ featuredPost.readTime }} min read
+            </span>
+          </div>
+
+          <h2 class="featured-title">{{ featuredPost.title }}</h2>
+
+          <p class="featured-excerpt">{{ featuredPost.excerpt }}</p>
+
+          <!-- Service Review Card -->
+          <div class="service-review-card" *ngIf="featuredPost.serviceReview">
+            <div class="review-header">
+              <div class="service-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                </svg>
+              </div>
+              <div class="service-info">
+                <span class="service-type">{{ featuredPost.serviceReview.serviceType }}</span>
+                <span class="service-location">{{ featuredPost.serviceReview.location }}</span>
+              </div>
+            </div>
+            <div class="review-rating">
+              <div class="stars">
+                <svg *ngFor="let star of getStarArray(featuredPost.serviceReview.rating)" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <span class="provider-name">{{ featuredPost.serviceReview.providerName }}</span>
+            </div>
+          </div>
+
+          <div class="post-footer">
+            <div class="author-info">
+              <div class="author-avatar">{{ featuredPost.author.avatar }}</div>
+              <div class="author-details">
+                <div class="author-name">
+                  {{ featuredPost.author.name }}
+                  <svg *ngIf="featuredPost.author.verified" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" class="verified-badge">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </div>
+                <span class="post-date">{{ formatDate(featuredPost.publishedDate) }}</span>
+              </div>
+            </div>
+
+            <div class="post-stats">
+              <span class="stat">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                </svg>
+                {{ formatNumber(featuredPost.likes) }}
+              </span>
+              <span class="stat">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                </svg>
+                {{ featuredPost.comments }}
+              </span>
+              <span class="stat">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                  <circle cx="12" cy="12" r="3"></circle>
+                </svg>
+                {{ formatNumber(featuredPost.views) }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Posts Grid -->
+  <section class="posts-section">
+    <div class="container">
+      <div class="section-header" *ngIf="filteredPosts.length > 0">
+        <h2 class="section-title">
+          {{ getSectionTitle() }}
+        </h2>
+        <p class="results-count">{{ filteredPosts.length }} {{ filteredPosts.length === 1 ? 'article' : 'articles' }} found</p>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredPosts.length === 0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <h3>No articles found</h3>
+        <p>Try adjusting your filters or search query</p>
+        <button class="btn-reset" (click)="selectCategory('all'); searchQuery = ''; onSearch()">
+          Clear Filters
+        </button>
+      </div>
+
+      <!-- Posts Grid -->
+      <div class="posts-grid" *ngIf="filteredPosts.length > 0">
+        <article class="post-card" *ngFor="let post of filteredPosts" (click)="viewPost(post.id)">
+          <div class="post-image">
+            <img [src]="post.coverImage" [alt]="post.title" class="post-img">
+            <div class="category-badge" [attr.data-category]="post.category">
+              {{ post.category }}
+            </div>
+          </div>
+
+          <div class="post-content">
+            <div class="post-meta">
+              <span class="read-time">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                {{ post.readTime }} min
+              </span>
+              <span class="post-date">{{ formatDate(post.publishedDate) }}</span>
+            </div>
+
+            <h3 class="post-title">{{ post.title }}</h3>
+
+            <p class="post-excerpt">{{ post.excerpt }}</p>
+
+            <!-- Service Review Badge -->
+            <div class="mini-review" *ngIf="post.serviceReview">
+              <div class="mini-stars">
+                <svg *ngFor="let star of getStarArray(post.serviceReview.rating)" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+              </div>
+              <span class="mini-service">{{ post.serviceReview.serviceType }}</span>
+            </div>
+
+            <div class="post-footer">
+              <div class="author-mini">
+                <div class="author-avatar-sm">{{ post.author.avatar }}</div>
+                <span class="author-name-sm">
+                  {{ post.author.name }}
+                  <svg *ngIf="post.author.verified" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" class="verified-badge">
+                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                  </svg>
+                </span>
+              </div>
+
+              <div class="post-actions">
+                <button class="action-btn" (click)="likePost(post, $event)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                  </svg>
+                  <span>{{ formatNumber(post.likes) }}</span>
+                </button>
+                <button class="action-btn" (click)="sharePost(post, $event)">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="18" cy="5" r="3"></circle>
+                    <circle cx="6" cy="12" r="3"></circle>
+                    <circle cx="18" cy="19" r="3"></circle>
+                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- Load More -->
+      <div class="load-more" *ngIf="filteredPosts.length >= 9">
+        <button class="btn-load-more">
+          Load More Articles
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
 </div>
