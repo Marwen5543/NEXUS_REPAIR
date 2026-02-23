@@ -15,6 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeComponent } from './components/home/home.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { NewsComponent } from './components/news/news.component';
+import { ServicesComponent } from './components/services/services.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { NewsComponent } from './components/news/news.component';
     FooterComponent,
     HomeComponent,
     NewsComponent,
-    ProfileComponent
+    ProfileComponent,
+    ServicesComponent
   ],
   imports: [
     BrowserModule,

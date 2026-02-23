@@ -1,0 +1,334 @@
+<!-- SERVICES PAGE - Professional Dark Theme -->
+<div class="services-page">
+
+  <!-- Hero Header -->
+  <section class="services-hero">
+    <div class="hero-background">
+      <div class="hero-gradient"></div>
+      <div class="hero-pattern"></div>
+    </div>
+
+    <div class="services-hero-container">
+      <div class="hero-content">
+        <div class="hero-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+            <path d="M2 17l10 5 10-5"></path>
+            <path d="M2 12l10 5 10-5"></path>
+          </svg>
+          <span>Professional Services</span>
+        </div>
+
+        <h1 class="hero-title">
+          Find Trusted <span class="gradient-text">Service Providers</span>
+        </h1>
+
+        <p class="hero-description">
+          Connect with verified, background-checked professionals across Tunisia.
+          From plumbing to electrical work, find the right expert for any job.
+        </p>
+
+        <!-- Search & Filter Bar -->
+        <div class="services-search-bar">
+          <div class="search-wrapper">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+            <input
+              type="text"
+              placeholder="Search services or providers..."
+              [(ngModel)]="searchQuery"
+              (input)="onSearch()"
+            >
+          </div>
+
+          <div class="sort-dropdown">
+            <select [(ngModel)]="sortBy" (change)="changeSortBy(sortBy)">
+              <option value="recommended">Recommended</option>
+              <option value="popular">Most Popular</option>
+              <option value="rating">Highest Rated</option>
+              <option value="nearest">Nearest</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- View Toggle -->
+        <div class="view-toggle">
+          <button
+            class="toggle-btn"
+            [class.active]="viewMode === 'services'"
+            (click)="setViewMode('services')"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Services</span>
+          </button>
+          <button
+            class="toggle-btn"
+            [class.active]="viewMode === 'providers'"
+            (click)="setViewMode('providers')"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Providers</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="categories-scroll">
+        <button
+          *ngFor="let category of categories"
+          class="category-chip"
+          [class.active]="selectedCategory === category.id"
+          (click)="selectCategory(category.id)"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <!-- Grid -->
+            <rect *ngIf="category.icon === 'grid'" x="3" y="3" width="7" height="7"></rect>
+            <rect *ngIf="category.icon === 'grid'" x="14" y="3" width="7" height="7"></rect>
+            <rect *ngIf="category.icon === 'grid'" x="14" y="14" width="7" height="7"></rect>
+            <rect *ngIf="category.icon === 'grid'" x="3" y="14" width="7" height="7"></rect>
+            <!-- Droplet -->
+            <path *ngIf="category.icon === 'droplet'" d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+            <!-- Zap -->
+            <polygon *ngIf="category.icon === 'zap'" points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            <!-- Tool -->
+            <path *ngIf="category.icon === 'tool'" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+            <!-- Wind -->
+            <path *ngIf="category.icon === 'wind'" d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+            <!-- Thermometer -->
+            <path *ngIf="category.icon === 'thermometer'" d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+          </svg>
+          <span>{{ category.name }}</span>
+          <span class="count">{{ category.count }}</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services Grid View -->
+  <section class="services-section" *ngIf="viewMode === 'services'">
+    <div class="container">
+      <div class="section-header" *ngIf="filteredServices.length > 0">
+        <h2 class="section-title">
+          {{ selectedCategory === 'all' ? 'All Services' : getCategoryName() }}
+        </h2>
+        <p class="results-count">{{ filteredServices.length }} {{ filteredServices.length === 1 ? 'service' : 'services' }} available</p>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredServices.length === 0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <h3>No services found</h3>
+        <p>Try adjusting your search or filters</p>
+        <button class="btn-reset" (click)="selectCategory('all'); searchQuery = ''; onSearch()">
+          Clear Filters
+        </button>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="services-grid" *ngIf="filteredServices.length > 0">
+        <article class="service-card" *ngFor="let service of filteredServices" (click)="selectService(service)">
+          <div class="service-image">
+            <img [src]="service.image" [alt]="service.title" class="service-img">
+            <div class="image-overlay"></div>
+            <div class="service-icon-badge">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path *ngIf="service.icon === 'droplet'" d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                <polygon *ngIf="service.icon === 'zap'" points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                <path *ngIf="service.icon === 'tool'" d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                <path *ngIf="service.icon === 'wind'" d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"></path>
+                <path *ngIf="service.icon === 'thermometer'" d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z"></path>
+                <path *ngIf="service.icon === 'paint-bucket'" d="m9 11 3 3L22 4"></path>
+                <path *ngIf="service.icon === 'hammer'" d="m14 14.5 1.5 1.5-7 7-1.5-1.5 7-7z"></path>
+                <path *ngIf="service.icon === 'bug'" d="m9 12 1 1 2-2m-2 2 1 1-2 2m-1-1 2 2m-2-2-2-2m2 2 2-2m-2 2-2 2"></path>
+                <path *ngIf="service.icon === 'tree'" d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+                <path *ngIf="service.icon === 'shield'" d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                <path *ngIf="service.icon === 'waves'" d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"></path>
+                <path *ngIf="service.icon === 'truck'" d="M1 3h15v13H1zM16 8h4l3 3v5h-7V8z"></path>
+              </svg>
+            </div>
+          </div>
+
+          <div class="service-content">
+            <h3 class="service-title">{{ service.title }}</h3>
+            <p class="service-excerpt">{{ service.description }}</p>
+
+            <div class="service-meta">
+              <div class="meta-item">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+                <span>{{ service.providers }} providers</span>
+              </div>
+              <div class="meta-rating">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                </svg>
+                <span>{{ service.rating }}</span>
+              </div>
+            </div>
+
+            <button class="explore-btn">
+              Explore Service
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Providers Grid View -->
+  <section class="providers-section" *ngIf="viewMode === 'providers'">
+    <div class="container">
+      <div class="section-header" *ngIf="filteredProviders.length > 0">
+        <h2 class="section-title">Top Rated Providers</h2>
+        <p class="results-count">{{ filteredProviders.length }} {{ filteredProviders.length === 1 ? 'provider' : 'providers' }} available</p>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="filteredProviders.length === 0">
+        <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <h3>No providers found</h3>
+        <p>Try adjusting your search or filters</p>
+        <button class="btn-reset" (click)="selectCategory('all'); searchQuery = ''; onSearch()">
+          Clear Filters
+        </button>
+      </div>
+
+      <!-- Providers Grid -->
+      <div class="providers-grid" *ngIf="filteredProviders.length > 0">
+        <article class="provider-card" *ngFor="let provider of filteredProviders" (click)="viewProvider(provider)">
+          <div class="provider-header">
+            <div class="provider-avatar">{{ provider.avatar }}</div>
+            <div class="provider-info">
+              <h3 class="provider-name">
+                {{ provider.name }}
+                <svg *ngIf="provider.verified" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" class="verified-badge">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </h3>
+              <span class="provider-service">{{ provider.service }}</span>
+            </div>
+            <div class="availability-badge" [class.available]="provider.available" [class.unavailable]="!provider.available">
+              {{ provider.available ? 'Available' : 'Busy' }}
+            </div>
+          </div>
+
+          <div class="provider-rating">
+            <div class="stars">
+              <svg *ngFor="let star of getStarArray(provider.rating)" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+              </svg>
+            </div>
+            <span class="rating-value">{{ provider.rating }}</span>
+            <span class="reviews-count">({{ provider.reviews }} reviews)</span>
+          </div>
+
+          <div class="provider-location">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <span>{{ provider.location }}</span>
+            <span class="separator">•</span>
+            <span>{{ provider.distance }}</span>
+          </div>
+
+          <div class="provider-footer">
+            <div class="provider-price">
+              <span class="price-label">From</span>
+              <span class="price-value">{{ provider.price }}</span>
+            </div>
+            <button class="book-btn" [disabled]="!provider.available" (click)="bookProvider(provider); $event.stopPropagation()">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                <line x1="16" y1="2" x2="16" y2="6"></line>
+                <line x1="8" y1="2" x2="8" y2="6"></line>
+                <line x1="3" y1="10" x2="21" y2="10"></line>
+              </svg>
+              Book Now
+            </button>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta-section">
+    <div class="cta-background">
+      <div class="cta-gradient"></div>
+    </div>
+
+    <div class="cta-container">
+      <div class="cta-content">
+        <h2 class="cta-title">Become a Service Provider</h2>
+        <p class="cta-description">
+          Join our network of verified professionals and grow your business in Tunisia
+        </p>
+        <div class="cta-buttons">
+          <button class="btn-primary-large">
+            Register as Provider
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+              <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="cta-features">
+        <div class="cta-feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            <path d="m9 12 2 2 4-4"></path>
+          </svg>
+          <span>Verified Profile</span>
+        </div>
+        <div class="cta-feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="1" x2="12" y2="23"></line>
+            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+          </svg>
+          <span>Secure Payments</span>
+        </div>
+        <div class="cta-feature-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span>Direct Bookings</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
